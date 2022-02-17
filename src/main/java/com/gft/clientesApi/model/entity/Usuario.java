@@ -23,5 +23,5 @@ public class Usuario {
     private String username;
 
     @Column(name = "senha")
-    private String pasword;
+    private String password;
 }
