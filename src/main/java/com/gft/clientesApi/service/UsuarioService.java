@@ -1,5 +1,6 @@
 package com.gft.clientesApi.service;
 
+import com.gft.clientesApi.exception.UsuarioCadastradoException;
 import com.gft.clientesApi.model.entity.Usuario;
 import com.gft.clientesApi.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,16 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository repository;
+
+    public Usuario salvar(Usuario usuario) {
+        boolean exists = repository.existsByUserame(usuario.getUsername());
+
+        if (exists) {
+            throw new UsuarioCadastradoException(usuario.getUsername());
+        }
+        return repository.save(usuario);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
